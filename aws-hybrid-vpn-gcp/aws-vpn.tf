@@ -4,7 +4,7 @@ resource "aws_vpn_gateway" "hybrid_vpn_gateway" {
   vpc_id = var.aws_vpc_id
 
   tags = {
-    Name = "hybrid-vpn-gateway-${var.name}"
+    Name = "hybrid-vpn-gateway-${var.resource_suffix}"
   }
 }
 
@@ -16,7 +16,7 @@ resource "aws_customer_gateway" "hybrid_customer_gateway" {
   type       = "ipsec.1"
 
   tags = {
-    Name = "hybrid-customer-gateway-${var.name}-${each.key}"
+    Name = "hybrid-customer-gateway-${var.resource_suffix}-${each.key}"
   }
 }
 
@@ -44,7 +44,7 @@ resource "aws_vpn_connection" "hybrid_vpn_connection" {
   tunnel2_phase2_dh_group_numbers      = [18]
 
   tags = {
-    Name = "hybrid-vpn-connection-${var.name}-${each.key}"
+    Name = "hybrid-vpn-connection-${var.resource_suffix}-${each.key}"
   }
 }
 

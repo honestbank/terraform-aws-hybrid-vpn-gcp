@@ -32,11 +32,10 @@ jobs:
       - name: Terraform Validate
         id: validate
         run: terraform validate -no-color
-# Disable for now, hangs indefinitely
-#      - name: Terraform Plan
-#        id: plan
-#        run: terraform plan -no-color
-#        continue-on-error: true
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -no-color
+        continue-on-error: true
       - uses: actions/github-script@v4
         if: github.event_name == 'pull_request'
         env:

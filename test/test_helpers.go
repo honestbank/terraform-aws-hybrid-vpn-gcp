@@ -8,6 +8,7 @@ import (
 	"os"
 	"os/user"
 	"strings"
+	"testing"
 )
 
 // runID() Creates a unique ID suitable for including in the name of any cloud resource such that tests can be
@@ -27,11 +28,11 @@ func runID() (string, error) {
 
 // copySupportingFiles copies one or more files from the test/ dir into a destination dir.
 // This is done to configure providers when using modules without them explicitly defined.
-func copySupportingFiles(fileNames []string, destination string) error {
+func copySupportingFiles(t *testing.T, fileNames []string, destination string) {
 	testFileSourceDir, getTestDirErr := os.Getwd()
 	if getTestDirErr != nil {
 		fmt.Println("Calling t.FailNow(): could not execute os.Getwd(): ", getTestDirErr)
-		return getTestDirErr
+		t.FailNow()
 	}
 
 	fmt.Println("Test working directory is: ", testFileSourceDir)
@@ -43,12 +44,11 @@ func copySupportingFiles(fileNames []string, destination string) error {
 		copyErr := files.CopyFile(src, dest)
 		if copyErr != nil {
 			fmt.Println("😩 Calling t.FailNow(): failed copying from: ", src, " to: ", dest, " with error: ", copyErr)
-			return copyErr
+			t.FailNow()
 		} else {
 			fmt.Println("✌️ Success! Copied from: ", src, " to: ", dest)
 		}
 	}
-	return nil
 }
 
 // cleanupSupportingFiles deletes one or more files from a directory, intended to be called after copySupportingFiles

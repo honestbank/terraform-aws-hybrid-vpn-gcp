@@ -1,7 +1,16 @@
-variable "name" {
-  description = "Name of the Hybrid VPN connection, used in various resources to uniquely identify them"
+variable "resource_suffix" {
+  description = "String used in various resources to suffix resource names related to this VPN setup"
   type        = string
-  default     = "test"
+}
+
+variable "aws_vpc_id" {
+  description = "AWS VPC to connect the VPN to"
+  type        = string
+}
+
+variable "aws_subnet_ids" {
+  description = "AWS subnets to connect the VPN to"
+  type        = list(string)
 }
 
 variable "google_project" {
@@ -17,16 +26,6 @@ variable "google_credentials" {
 variable "google_region" {
   description = "GCP region used to create all resources in this run"
   type        = string
-}
-
-variable "aws_vpc_id" {
-  description = "AWS VPC to connect the VPN to"
-  type        = string
-}
-
-variable "aws_subnet_ids" {
-  description = "AWS subnets to connect the VPN to"
-  type        = list(string)
 }
 
 variable "gcp_network_name" {

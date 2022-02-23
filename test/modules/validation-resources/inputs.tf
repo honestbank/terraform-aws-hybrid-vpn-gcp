@@ -26,4 +26,5 @@ variable "gcp_subnetwork_name" {
 
 variable "gcp_zone_name" {
   description = "GCP availability zone to create the compute instance in"
+  type        = string
 }

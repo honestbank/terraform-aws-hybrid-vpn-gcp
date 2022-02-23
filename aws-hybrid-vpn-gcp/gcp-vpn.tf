@@ -1,5 +1,5 @@
 resource "google_compute_router" "hybrid_vpn_router" {
-  name    = "hybrid-vpn-router-${var.name}"
+  name    = "hybrid-vpn-router-${var.resource_suffix}"
   network = var.gcp_network_name
 
   bgp {
@@ -11,7 +11,7 @@ resource "google_compute_router" "hybrid_vpn_router" {
 
 # VPN Gateway
 resource "google_compute_ha_vpn_gateway" "hybrid_ha_vpn_gateway" {
-  name    = "hybrid-vpn-gateway-${var.name}"
+  name    = "hybrid-vpn-gateway-${var.resource_suffix}"
   network = var.gcp_network_id
 }
 
@@ -26,7 +26,7 @@ locals {
 
 # External VPN Gateway
 resource "google_compute_external_vpn_gateway" "hybrid_external_vpn_gateway" {
-  name            = "hybrid-external-vpn-gateway-${var.name}"
+  name            = "hybrid-external-vpn-gateway-${var.resource_suffix}"
   redundancy_type = "FOUR_IPS_REDUNDANCY"
 
   dynamic "interface" {
@@ -42,7 +42,7 @@ resource "google_compute_external_vpn_gateway" "hybrid_external_vpn_gateway" {
 resource "google_compute_vpn_tunnel" "hybrid_vpn_tunnel" {
   count = 4
 
-  name = "hybrid-vpn-tunnel-${var.name}-${count.index}"
+  name = "hybrid-vpn-tunnel-${var.resource_suffix}-${count.index}"
 
   peer_external_gateway           = google_compute_external_vpn_gateway.hybrid_external_vpn_gateway.id
   peer_external_gateway_interface = count.index
@@ -58,7 +58,7 @@ resource "google_compute_vpn_tunnel" "hybrid_vpn_tunnel" {
 resource "google_compute_router_interface" "tunnel_interface" {
   count = 4
 
-  name       = "tunnel-${var.name}-${count.index}"
+  name       = "tunnel-${var.resource_suffix}-${count.index}"
   router     = google_compute_router.hybrid_vpn_router.name
   ip_range   = "169.254.1${count.index}.2/30"
   vpn_tunnel = google_compute_vpn_tunnel.hybrid_vpn_tunnel[count.index].name
@@ -71,6 +71,6 @@ resource "google_compute_router_peer" "hybrid_vpn_router_peers" {
   name            = "aws-connection-${count.index < 2 ? 0 : 1}-tunnel-${local.aws_vpn_connection_tunnel_index_map[count.index]}"
   peer_asn        = local.aws_bgp_asn
   peer_ip_address = "169.254.1${count.index}.1"
-  interface       = "tunnel-${var.name}-${count.index}"
+  interface       = "tunnel-${var.resource_suffix}-${count.index}"
   router          = google_compute_router.hybrid_vpn_router.name
 }
