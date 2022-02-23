@@ -1,5 +1,5 @@
-variable "name" {
-  description = "Name of the Hybrid VPN deployment, used in various resources to uniquely identify them"
+variable "resource_suffix" {
+  description = "String used in various resources to suffix resource names related to this VPN setup"
   type        = string
   default     = "test"
 }

@@ -1,7 +1,7 @@
 module "aws-hybrid-vpn-gcp" {
   source = "./aws-hybrid-vpn-gcp"
 
-  name = var.name
+  resource_suffix = var.resource_suffix
 
   # AWS Target VPC
   aws_vpc_id                 = var.aws_vpc_id

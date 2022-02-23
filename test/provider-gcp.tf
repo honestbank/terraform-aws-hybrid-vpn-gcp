@@ -1,5 +1,6 @@
 variable "google_credentials" {
   description = "GCP Service Account JSON keyfile contents."
+  type        = string
   sensitive   = true
 }
 

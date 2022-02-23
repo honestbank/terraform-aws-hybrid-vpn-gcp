@@ -49,7 +49,7 @@ func TestTerraformGcpHybridVpnAws(t *testing.T) {
 			Vars:         awsVpcInputs,
 		})
 
-		_ = copySupportingFiles([]string{"provider-aws.tf"}, awsVpcDir)
+		copySupportingFiles(t, []string{"provider-aws.tf"}, awsVpcDir)
 	})
 
 	defer test_structure.RunTestStage(t, "cleanup_aws_vpc_support_files", func() {
@@ -93,7 +93,7 @@ func TestTerraformGcpHybridVpnAws(t *testing.T) {
 			Vars:         gcpVpcInputs,
 		})
 
-		_ = copySupportingFiles([]string{"provider-gcp.tf"}, gcpVpcDir)
+		copySupportingFiles(t, []string{"provider-gcp.tf"}, gcpVpcDir)
 	})
 
 	defer test_structure.RunTestStage(t, "cleanup_gcp_vpc_support_files", func() {
@@ -124,7 +124,7 @@ func TestTerraformGcpHybridVpnAws(t *testing.T) {
 			"google_region":       gcpRegion,
 			"google_project":      gcpProject,
 			"google_credentials":  googleCredentials,
-			"name":                runId,
+			"resource_suffix":     runId,
 			"aws_vpc_id":          terraform.Output(t, awsVpcBootstrapTerraformOptions, "vpc_id"),
 			"aws_subnet_ids":      terraform.OutputList(t, awsVpcBootstrapTerraformOptions, "private_subnets"),
 			"gcp_network_name":    terraform.Output(t, gcpVpcBootstrapTerraformOptions, "network_name"),
@@ -137,7 +137,7 @@ func TestTerraformGcpHybridVpnAws(t *testing.T) {
 			Vars:         awsHybridVpnInputs,
 		})
 
-		_ = copySupportingFiles([]string{"provider-aws.tf", "provider-gcp.tf", "extra-inputs.tf"}, awsHybridVpnGcpDir)
+		copySupportingFiles(t, []string{"provider-aws.tf", "provider-gcp.tf", "extra-inputs.tf"}, awsHybridVpnGcpDir)
 	})
 
 	defer test_structure.RunTestStage(t, "cleanup_aws_hybrid_vpn_gcp_support_files", func() {
