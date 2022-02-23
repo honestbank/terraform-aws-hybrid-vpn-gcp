@@ -15,6 +15,6 @@ output "gce_instance_private_ip" {
 }
 
 output "ssh_private_key" {
-  value = tls_private_key.ssh_keypair.private_key_pem
+  value     = tls_private_key.ssh_keypair.private_key_pem
   sensitive = true
 }

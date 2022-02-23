@@ -1,5 +1,5 @@
 resource "tls_private_key" "ssh_keypair" {
-  algorithm   = "RSA"
+  algorithm = "RSA"
 }
 
 // AWS
@@ -8,7 +8,7 @@ data "aws_ami" "ubuntu" {
   most_recent = true
 
   filter {
-    name   = "name"
+    name   = "namea"
     values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
   }
 
@@ -26,21 +26,21 @@ resource "aws_key_pair" "terratest_key" {
 }
 
 resource "aws_security_group" "security_group" {
-  name        = "terratest-${var.name}"
-  vpc_id      = var.aws_vpc_id
+  name   = "terratest-${var.name}"
+  vpc_id = var.aws_vpc_id
 
   ingress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }
 
@@ -50,7 +50,7 @@ resource "aws_instance" "test" {
   subnet_id                   = var.aws_subnet_id
   associate_public_ip_address = true
   key_name                    = aws_key_pair.terratest_key.key_name
-  security_groups = [aws_security_group.security_group.id]
+  security_groups             = [aws_security_group.security_group.id]
 
   tags = {
     Name = "terratest-${var.name}"

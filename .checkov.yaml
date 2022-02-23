@@ -3,7 +3,7 @@ directory:
 - aws-hybrid-vpn-gcp
 download-external-modules: true
 evaluate-variables: true
-external-modules-download-path: .external_modules
+external-modules-download-path: .terraform
 quiet: true
 skip-path:
   - .external_modules

@@ -12,7 +12,7 @@ provider "aws" {
   dynamic "assume_role" {
     for_each = var.aws_assume_role_arn != "" ? [] : [1]
     content {
-      role_arn = var.aws_assume_role_arn
+      role_arn     = var.aws_assume_role_arn
       session_name = "terratest"
     }
   }
