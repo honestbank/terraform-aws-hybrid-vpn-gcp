@@ -1,0 +1,6 @@
+[submodule "test/modules/terraform-gcp-vpc"]
+	path = test/modules/terraform-gcp-vpc
+	url = https://github.com/honestbank/terraform-gcp-vpc
+[submodule "test/modules/terraform-aws-vpc"]
+	path = test/modules/terraform-aws-vpc
+	url = https://github.com/honestbank/terraform-aws-vpc
