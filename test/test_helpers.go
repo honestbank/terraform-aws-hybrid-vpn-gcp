@@ -69,9 +69,14 @@ func cleanupSupportingFiles(fileNames []string, destination string) error {
 
 // getGoogleCredentials reads a static service account credentials JSON file named gcp-creds.json from the test/ folder
 func getGoogleCredentials() string {
-	var googleCredentials, errReadingGCredsFromFile = os.ReadFile("gcp-creds.json")
-	if errReadingGCredsFromFile != nil {
-		panic("No Google credentials available")
+	envGoogleCredentials, envPresent := os.LookupEnv("GOOGLE_CREDENTIALS")
+	if envPresent {
+		return envGoogleCredentials
 	}
-	return string(googleCredentials)
+
+	fileGoogleCredentials, errReadingGCredsFromFile := os.ReadFile("gcp-creds.json")
+	if errReadingGCredsFromFile == nil {
+		return string(fileGoogleCredentials)
+	}
+	panic("No Google credentials available")
 }

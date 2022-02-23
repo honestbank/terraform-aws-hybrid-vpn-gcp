@@ -19,6 +19,7 @@ func TestTerraformGcpHybridVpnAws(t *testing.T) {
 	awsAssumeRoleArn := "arn:aws:iam::106256755710:role/OrganizationAccountAccessRole"
 	gcpRegion := "asia-southeast2"
 	gcpProject := "test-terraform-project-01"
+
 	googleCredentials := getGoogleCredentials()
 
 	//
