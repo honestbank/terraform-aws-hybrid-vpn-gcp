@@ -57,7 +57,7 @@ No modules.
 | <a name="input_aws_vpc_id"></a> [aws\_vpc\_id](#input\_aws\_vpc\_id) | AWS VPC to connect the VPN to | `string` | n/a | yes |
 | <a name="input_gcp_network_id"></a> [gcp\_network\_id](#input\_gcp\_network\_id) | ID of the GCP VPC network to connect the VPN to (must be the same network as gcp\_network\_name) | `string` | n/a | yes |
 | <a name="input_gcp_network_name"></a> [gcp\_network\_name](#input\_gcp\_network\_name) | Name of the GCP VPC network to connect the VPN to | `string` | n/a | yes |
-| <a name="input_gcp_subnetwork_name"></a> [gcp\_subnet\_name](#input\_gcp\_subnet\_name) | GCP subnet to connect the VPN to | `string` | n/a | yes |
+| <a name="input_gcp_subnetwork_name"></a> [gcp\_subnetwork\_name](#input\_gcp\_subnetwork\_name) | GCP subnet to connect the VPN to | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Name of the Hybrid VPN deployment, used in various resources to uniquely identify them | `string` | `"test"` | no |
 
 ## Outputs
