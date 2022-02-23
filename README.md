@@ -33,7 +33,7 @@ No resources.
 | <a name="input_google_credentials"></a> [google\_credentials](#input\_google\_credentials) | Contents of a JSON keyfile of an account with write access to the project | `string` | n/a | yes |
 | <a name="input_google_project"></a> [google\_project](#input\_google\_project) | The GCP project to use for this run | `string` | n/a | yes |
 | <a name="input_google_region"></a> [google\_region](#input\_google\_region) | GCP region used to create all resources in this run | `string` | n/a | yes |
-| <a name="input_name"></a> [name](#input\_name) | Name of the Hybrid VPN connection, used in various resources to uniquely identify them | `string` | `"test"` | no |
+| <a name="input_resource_suffix"></a> [resource\_suffix](#input\_resource\_suffix) | String used in various resources to suffix resource names related to this VPN setup | `string` | n/a | yes |
 
 ## Outputs
 

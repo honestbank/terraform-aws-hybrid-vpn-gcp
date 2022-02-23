@@ -12,7 +12,7 @@ resource "aws_customer_gateway" "hybrid_customer_gateway" {
   for_each = local.gcp_public_ips_set
 
   bgp_asn    = local.gcp_bgp_asn
-  ip_address = google_compute_ha_vpn_gateway.hybrid_ha_vpn_gateway.vpn_interfaces[index(local.gcp_public_ips,each.key)].ip_address
+  ip_address = google_compute_ha_vpn_gateway.hybrid_ha_vpn_gateway.vpn_interfaces[index(local.gcp_public_ips, each.key)].ip_address
   type       = "ipsec.1"
 
   tags = {
@@ -53,7 +53,7 @@ data "aws_route_tables" "vpc_route_tables" {
 }
 
 resource "aws_vpn_gateway_route_propagation" "gcp_routes" {
-  for_each       = data.aws_route_tables.vpc_route_tables.ids
+  for_each = data.aws_route_tables.vpc_route_tables.ids
 
   vpn_gateway_id = aws_vpn_gateway.hybrid_vpn_gateway.id
   route_table_id = each.value

@@ -181,7 +181,7 @@ func TestTerraformGcpHybridVpnAws(t *testing.T) {
 			Vars:         validationResourcesInputs,
 		})
 
-		_ = copySupportingFiles([]string{"provider-aws.tf", "provider-gcp.tf", "extra-inputs.tf"}, validationResourcesDir)
+		copySupportingFiles(t, []string{"provider-aws.tf", "provider-gcp.tf", "extra-inputs.tf"}, validationResourcesDir)
 	})
 
 	defer test_structure.RunTestStage(t, "cleanup_validation_resources_support_files", func() {
