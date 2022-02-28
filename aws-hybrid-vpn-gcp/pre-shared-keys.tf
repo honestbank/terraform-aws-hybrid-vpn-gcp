@@ -5,4 +5,7 @@ resource "random_password" "psk" {
   special = true
   # These are the only supported special characters
   override_special = "_."
+
+  # Cannot start with a 0, so exclude numbers
+  number = false
 }
