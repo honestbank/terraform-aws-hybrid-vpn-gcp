@@ -53,7 +53,7 @@ data "aws_route_tables" "vpc_route_tables" {
 }
 
 resource "aws_vpn_gateway_route_propagation" "gcp_routes" {
-  for_each = data.aws_route_tables.vpc_route_tables.ids
+  for_each = toset(data.aws_route_tables.vpc_route_tables.ids)
 
   vpn_gateway_id = aws_vpn_gateway.hybrid_vpn_gateway.id
   route_table_id = each.value
