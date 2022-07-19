@@ -1,0 +1,15 @@
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: terraform-aws-hybrid-vpn-gcp
+  description: Terraform module for creating cloud-managed VPN between Google Cloud Platform and Amazon Web Services with HA and automatic route propagation
+  annotations:
+    github.com/project-slug: honestbank/terraform-aws-hybrid-vpn-gcp
+    github.com/team-slug: honestbank/devops-engineers
+spec:
+  type: tf-module
+  lifecycle: prod
+  system: infrastructure
+  owner: group:devops-engineers
+  dependencyOf:
+    - resource:hybrid-cloud
