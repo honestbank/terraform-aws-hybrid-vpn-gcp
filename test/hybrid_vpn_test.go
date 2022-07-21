@@ -2,11 +2,12 @@ package test
 
 import (
 	"fmt"
-	"github.com/gruntwork-io/terratest/modules/ssh"
-	"github.com/stretchr/testify/assert"
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/gruntwork-io/terratest/modules/ssh"
+	"github.com/stretchr/testify/assert"
 
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	test_structure "github.com/gruntwork-io/terratest/modules/test-structure"
@@ -18,7 +19,7 @@ func TestTerraformGcpHybridVpnAws(t *testing.T) {
 	awsRegion := "ap-southeast-3"
 	awsAssumeRoleArn := "arn:aws:iam::106256755710:role/OrganizationAccountAccessRole"
 	gcpRegion := "asia-southeast2"
-	gcpProject := "test-terraform-project-01"
+	gcpProject := "lab01detest"
 
 	googleCredentials := getGoogleCredentials()
 
