@@ -20,8 +20,7 @@ repos:
       - id: terraform_fmt
       - id: terraform_docs
       - id: terraform_validate
-        exclude: test/
       - id: terraform_tfsec
-        exclude: test/
+        exclude: "test/"
       - id: terraform_checkov
-        exclude: test/
+        exclude: "test/"
