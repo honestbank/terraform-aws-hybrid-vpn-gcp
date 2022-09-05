@@ -7,5 +7,7 @@ validate:
 	terraform fmt --recursive
 
 docs:
-	terraform-docs .
-	terraform-docs -c .terraform-docs.yml ./aws-hybrid-vpn-gcp
+	rm -rf aws-hybrid-vpn-gcp/*/.terraform aws-hybrid-vpn-gcp/*/.terraform.lock.hcl
+	rm -rf modules/*/.terraform modules/*/.terraform.lock.hcl
+
+	terraform-docs -c .terraform-docs.yml .
