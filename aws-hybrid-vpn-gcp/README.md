@@ -15,18 +15,18 @@ To run E2E tests, navigate to the [test folder](../test) and run `go test -v -ti
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~> 1.1 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 3.52 |
-| <a name="requirement_google"></a> [google](#requirement\_google) | ~> 4.10 |
-| <a name="requirement_random"></a> [random](#requirement\_random) | ~> 3.1 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.1 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.12 |
+| <a name="requirement_google"></a> [google](#requirement\_google) | >= 4.10 |
+| <a name="requirement_random"></a> [random](#requirement\_random) | >= 3.1 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 3.74.2 |
-| <a name="provider_google"></a> [google](#provider\_google) | 4.11.0 |
-| <a name="provider_random"></a> [random](#provider\_random) | 3.1.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.12 |
+| <a name="provider_google"></a> [google](#provider\_google) | >= 4.10 |
+| <a name="provider_random"></a> [random](#provider\_random) | >= 3.1 |
 
 ## Modules
 
@@ -37,6 +37,8 @@ No modules.
 | Name | Type |
 |------|------|
 | [aws_customer_gateway.hybrid_customer_gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/customer_gateway) | resource |
+| [aws_ec2_transit_gateway.hybrid_vpn_transit_gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ec2_transit_gateway) | resource |
+| [aws_ec2_transit_gateway_vpc_attachment.vpc_transit_gateway_attachment](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ec2_transit_gateway_vpc_attachment) | resource |
 | [aws_vpn_connection.hybrid_vpn_connection](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpn_connection) | resource |
 | [aws_vpn_gateway.hybrid_vpn_gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpn_gateway) | resource |
 | [aws_vpn_gateway_route_propagation.gcp_routes](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpn_gateway_route_propagation) | resource |
@@ -58,7 +60,7 @@ No modules.
 | <a name="input_gcp_network_id"></a> [gcp\_network\_id](#input\_gcp\_network\_id) | ID of the GCP VPC network to connect the VPN to (must be the same network as gcp\_network\_name) | `string` | n/a | yes |
 | <a name="input_gcp_network_name"></a> [gcp\_network\_name](#input\_gcp\_network\_name) | Name of the GCP VPC network to connect the VPN to | `string` | n/a | yes |
 | <a name="input_gcp_subnetwork_name"></a> [gcp\_subnetwork\_name](#input\_gcp\_subnetwork\_name) | GCP subnet to connect the VPN to | `string` | n/a | yes |
-| <a name="input_name"></a> [name](#input\_name) | Name of the Hybrid VPN deployment, used in various resources to uniquely identify them | `string` | `"test"` | no |
+| <a name="input_resource_suffix"></a> [resource\_suffix](#input\_resource\_suffix) | String used in various resources to suffix resource names related to this VPN setup | `string` | n/a | yes |
 
 ## Outputs
 
