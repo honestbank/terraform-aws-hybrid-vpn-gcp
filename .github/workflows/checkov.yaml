@@ -1,4 +1,6 @@
 name: "Checkov GitHub Action"
+permissions: read-all
+
 on:
   pull_request:
     branches: [test, dev, qa, prod, main]
@@ -9,13 +11,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: "recursive"
-          token: ${{ secrets.ENGINEERING_GITHUB_PERSONAL_ACCESS_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create empty baseline (if needed)
+        run: |
+          if [ -f .checkov.baseline ]; then
+            echo "⏩⏩⏩ Baseline file exists - do nothing."
+          else
+            echo "🆕🆕🆕 Baseline file does not exist - creating empty baseline file."
+            echo "{}" >> .checkov.baseline
+          fi
+      - name: Output baseline contents to console
+        run: |
+            echo "Checkov baseline file (.checkov.baseline) contents:"
+            cat .checkov.baseline
       - name: Run Checkov
         id: checkov
         uses: bridgecrewio/checkov-action@master
         with:
-          download_external_modules: true # optional: download external terraform modules from public git repositories and terraform registry
-          quiet: true # optional: display only failed checks
+          config_file: ".checkov.yaml"
