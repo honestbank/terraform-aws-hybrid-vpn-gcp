@@ -1,7 +1,6 @@
 package test
 
 import (
-	"fmt"
 	"strings"
 	"testing"
 	"time"
@@ -17,11 +16,14 @@ func TestTerraformGcpHybridVpnAws(t *testing.T) {
 	t.Parallel()
 	runId, _ := runID()
 	awsRegion := "ap-southeast-3"
-	awsAssumeRoleArn := "arn:aws:iam::106256755710:role/OrganizationAccountAccessRole"
+	awsAssumeRoleArn := getAWSAssumeRoleARN()
 	gcpRegion := "asia-southeast2"
-	gcpProject := "lab01detest"
+	gcpProject := "lab02detest"
 
 	googleCredentials := getGoogleCredentials()
+
+	// Quick preflight check: fail fast if GCP credentials are invalid or lack access
+	validateGCPCredentials(t, googleCredentials, gcpProject)
 
 	//
 	//
@@ -50,11 +52,11 @@ func TestTerraformGcpHybridVpnAws(t *testing.T) {
 			Vars:         awsVpcInputs,
 		})
 
-		copySupportingFiles(t, []string{"provider-aws.tf"}, awsVpcDir)
+		copySupportingFiles(t, []string{"provider-aws.tf", "versions-aws-vpc.tf"}, awsVpcDir)
 	})
 
 	defer test_structure.RunTestStage(t, "cleanup_aws_vpc_support_files", func() {
-		_ = cleanupSupportingFiles([]string{"provider-aws.tf"}, awsVpcDir)
+		_ = cleanupSupportingFiles([]string{"provider-aws.tf", "versions-aws-vpc.tf"}, awsVpcDir)
 	})
 
 	defer test_structure.RunTestStage(t, "cleanup_aws_vpc", func() {
@@ -202,10 +204,6 @@ func TestTerraformGcpHybridVpnAws(t *testing.T) {
 			PrivateKey: terraform.Output(t, validationResourcesTerraformOptions, "ssh_private_key"),
 		}
 
-		sshAgent := ssh.SshAgentWithKeyPair(t, &sshKeyPair)
-		fmt.Println(sshKeyPair.PrivateKey)
-		defer sshAgent.Stop()
-
 		awsPrivateIp := terraform.Output(t, validationResourcesTerraformOptions, "ec2_instance_private_ip")
 		//awsPublicIp := terraform.Output(t, validationResourcesTerraformOptions, "ec2_instance_public_ip")
 		//gcpPrivateIp := terraform.Output(t, validationResourcesTerraformOptions, "gce_instance_private_ip")
@@ -218,15 +216,18 @@ func TestTerraformGcpHybridVpnAws(t *testing.T) {
 		//awsSshHost := ssh.Host{
 		//	Hostname:         awsPublicIp,
 		//	SshUserName:      "ubuntu",
-		//	OverrideSshAgent: sshAgent,
+		//	SshKeyPair:       &sshKeyPair,
 		//}
 		gcpSshHost := ssh.Host{
-			Hostname:         gcpPublicIp,
-			SshUserName:      "terratest",
-			OverrideSshAgent: sshAgent,
+			Hostname:    gcpPublicIp,
+			SshUserName: "terratest",
+			SshKeyPair:  &sshKeyPair,
 		}
 
-		gcpToAwsOut := ssh.CheckSshCommandWithRetry(t, gcpSshHost, gcpPingAwsCommand, 10, 5*time.Second, ssh.CheckSshCommandE)
+		// GCE may report as running before sshd is ready; wait for stable SSH first.
+		ssh.CheckSshConnectionWithRetry(t, gcpSshHost, 30, 5*time.Second, ssh.CheckSshConnectionE)
+
+		gcpToAwsOut := ssh.CheckSshCommandWithRetry(t, gcpSshHost, gcpPingAwsCommand, 20, 5*time.Second, ssh.CheckSshCommandE)
 		assert.True(t, strings.Contains(gcpToAwsOut, expectedText))
 
 		// SSH to AWS not working for the moment

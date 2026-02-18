@@ -1,5 +1,5 @@
 resource "tls_private_key" "ssh_keypair" {
-  algorithm = "RSA"
+  algorithm = "ED25519"
 }
 
 // AWS
@@ -66,7 +66,7 @@ resource "google_compute_instance" "test" {
 
   boot_disk {
     initialize_params {
-      image = "debian-cloud/debian-9"
+      image = "debian-cloud/debian-12"
     }
   }
 
