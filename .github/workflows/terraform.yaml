@@ -11,6 +11,9 @@ concurrency:
   cancel-in-progress: true
 jobs:
   terraform:
+    # File-sync PRs (sync_* branches) only carry centrally-managed boilerplate;
+    # skipped jobs still satisfy required status checks, so automerge can proceed.
+    if: ${{ !startsWith(github.head_ref, 'sync_') }}
     name: "terraform"
     runs-on: ubuntu-latest
     # terraform init/plan against Terraform Cloud can block on the remote run
