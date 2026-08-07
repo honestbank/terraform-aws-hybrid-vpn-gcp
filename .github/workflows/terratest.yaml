@@ -17,9 +17,6 @@ env:
   GOOGLE_CREDENTIALS: ${{ secrets.TERRATEST_GOOGLE_CREDENTIALS }}
 jobs:
   terratest:
-    # File-sync PRs (sync_* branches) only carry centrally-managed boilerplate;
-    # skipped jobs still satisfy required status checks, so automerge can proceed.
-    if: ${{ !startsWith(github.head_ref, 'sync_') }}
     name: terratest
     runs-on: ubuntu-latest
     # go test is capped at 30 minutes; the rest covers checkout, toolchain
