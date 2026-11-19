@@ -29,10 +29,10 @@ repos:
         args:
           - --hook-config=--retry-once-with-cleanup=true
           - --tf-init-args=-upgrade
-      - id: terraform_tfsec
-        exclude: "test/"
+      - id: terraform_trivy
         args:
-          - --args=--exclude-downloaded-modules
+          - --args=--config=__GIT_WORKING_DIR__/trivy.yaml
+          - --args=--ignorefile=__GIT_WORKING_DIR__/.trivyignore
       - id: terraform_checkov
         exclude: "test/"
         args:
